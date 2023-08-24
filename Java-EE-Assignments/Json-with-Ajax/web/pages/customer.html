@@ -184,17 +184,10 @@ let baseUrl="http://localhost:8081/shop/";
    });
 
    $("#btnCusDelete").click(function () {
-      /* let formData = $("#customerFrom").serialize();*/
-/*
-       let id=$("#txtCustomerID").val();
-         let formData="cusID="+id;*/
-       //qury String format is delete
 
-      // console.log(formData)
        $.ajax({
            url: "customer?cusID="+$("#txtCustomerID").val(),
            method:"DELETE",
-           //data:formData,
 
 
            success:function (resp) {
@@ -203,8 +196,7 @@ let baseUrl="http://localhost:8081/shop/";
 
            },
            error: function(error) {
-               //   alert("An error occurred while communicating with the server.");
-               //  alert(error.responseJSON.message);
+
                alert(error.responseJSON.message)
                console.log(error);
            }

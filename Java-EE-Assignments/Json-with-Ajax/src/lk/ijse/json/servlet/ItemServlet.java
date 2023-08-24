@@ -26,17 +26,17 @@ public class ItemServlet extends HttpServlet {
 
 
             JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-            while (rst.next()){
+            while (rst.next()) {
                 String code = rst.getString(1);
                 String description = rst.getString(2);
                 String qty = rst.getString(3);
                 String unitPrice = rst.getString(4);
 
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                objectBuilder.add("code",code);
-                objectBuilder.add("description",description);
-                objectBuilder.add("qty",qty);
-                objectBuilder.add("unitPrice",unitPrice);
+                objectBuilder.add("code", code);
+                objectBuilder.add("description", description);
+                objectBuilder.add("qty", qty);
+                objectBuilder.add("unitPrice", unitPrice);
                 arrayBuilder.add(objectBuilder.build());
             }
             resp.setContentType("application/json");
@@ -72,15 +72,15 @@ public class ItemServlet extends HttpServlet {
                     pstm.setObject(3, qty);
                     pstm.setObject(4, unitPrice);
                     if (pstm.executeUpdate() > 0) {
-                       // resp.getWriter().println("Item Added..!");
+                        // resp.getWriter().println("Item Added..!");
                         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("message","Item Added..!");
+                        objectBuilder.add("message", "Item Added..!");
                         resp.setContentType("application/json");
                         resp.getWriter().print(objectBuilder.build());
 
-                    }else {
+                    } else {
                         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("message","Item Not Added..!");
+                        objectBuilder.add("message", "Item Not Added..!");
                         resp.setContentType("application/json");
                         resp.setStatus(400);
                         resp.getWriter().print(objectBuilder.build());
@@ -92,7 +92,7 @@ public class ItemServlet extends HttpServlet {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-            objectBuilder.add("error",e.getMessage());
+            objectBuilder.add("error", e.getMessage());
             resp.setContentType("application/json");
             resp.setStatus(400);
             resp.getWriter().print(objectBuilder.build());
@@ -102,6 +102,97 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String code = req.getParameter("code");
+        String itemName = req.getParameter("description");
+        String qty = req.getParameter("qty");
+        String unitPrice = req.getParameter("unitPrice");
 
+
+        try {
+            forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
+
+
+            PreparedStatement pstm3 = connection.prepareStatement("update item set description=?, qty=?, unitPrice=? where code=?");
+
+            pstm3.setObject(1, itemName);
+            pstm3.setObject(2, qty);
+            pstm3.setObject(3, unitPrice);
+            pstm3.setObject(4, code);
+            System.out.println("sql" + pstm3);
+            if (pstm3.executeUpdate() > 0) {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status", "success");
+                objectBuilder.add("message", "Item Updated..!");
+                resp.setContentType("application/json");
+                resp.getWriter().print(objectBuilder.build());
+
+            } else {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status", "fail");
+                objectBuilder.add("message", "Item Not Updated..!");
+                resp.setContentType("application/json");
+                resp.setStatus(400);
+                resp.getWriter().print(objectBuilder.build());
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", "success");
+            objectBuilder.add("message", e.getMessage());
+            objectBuilder.add("data", e.getErrorCode());
+            resp.setContentType("application/json");
+            resp.setStatus(400);
+            resp.getWriter().print(objectBuilder.build());
+        }
     }
+
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String code = req.getParameter("code");
+
+
+        try {
+            forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
+
+
+            PreparedStatement pstm2 = connection.prepareStatement("delete from item where code=?");
+            pstm2.setObject(1,code);
+
+            System.out.println("Sql"+pstm2);
+            if (pstm2.executeUpdate()>0){
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status","success");
+                objectBuilder.add("message","Item Deleted..!");
+                resp.setContentType("application/json");
+                resp.getWriter().print(objectBuilder.build());
+            }else {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status","fail");
+                objectBuilder.add("message","Item Not Deleted..!");
+                resp.setContentType("application/json");
+                resp.setStatus(400);
+                resp.getWriter().print(objectBuilder.build());
+            }
+
+        }catch (ClassNotFoundException e){
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status","success");
+            objectBuilder.add("message",e.getMessage());
+            objectBuilder.add("data",e.getErrorCode());
+            resp.setContentType("application/json");
+            resp.setStatus(400);
+            resp.getWriter().print(objectBuilder.build());
+
+        }
+    }
+
+
+
 }
