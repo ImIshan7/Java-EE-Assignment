@@ -105,7 +105,7 @@
         $("#tblCustomer").empty();
         <!--send ajax request to the customer servlet using jQuery-->
         $.ajax({
-            url: 'http://localhost:8070/jsonp/pages/customer',
+            url: 'http://localhost:8087/Json_Ajax/pages/customer',
             dataType: "json",
             success: function (customers) {
                 for (let i in customers) {
@@ -126,7 +126,7 @@
     $("#btnCustomer").click(function () {
         let formData = $("#customerForm").serialize();
         $.ajax({
-            url: 'http://localhost:8070/jsonp/pages/customer',
+            url: 'http://localhost:8087/Json_Ajax/pages/customer',
             method: "post",
             data: formData,
             success: function (res) {
