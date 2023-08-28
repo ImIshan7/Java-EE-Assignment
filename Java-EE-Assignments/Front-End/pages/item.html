@@ -142,7 +142,7 @@
 
 
     $("#btnItemGetAll").click(function (){
-        generateNewIdItem();
+      //  generateNewIdItem();
     });
 
     function clearAll(){
@@ -209,7 +209,7 @@
     });
 
 
-    $("#btnItemDelete").click(function () {
+    /*$("#btnItemDelete").click(function () {
         $.ajax({
             url: "http://localhost:8082/pos/pages/item?code=" + $("#itemCode").val(),
             method: "DELETE",
@@ -222,7 +222,32 @@
                 alert(data.responseJSON.message);
             }
         });
+    });*/
+
+    $("#btnItemDelete").click(function () {
+
+        $.ajax({
+            url: "http://localhost:8082/pos/pages/item?code=" + $("#itemCode").val(),
+            method: "DELETE",
+            //data:formData,
+
+
+            success: function (data) {
+                getAllCustomer();
+                alert(data.message);
+
+            },
+            error: function (data) {
+                //   alert("An error occurred while communicating with the server.");
+                //  alert(error.responseJSON.message);
+                alert(data.responseJSON.message)
+                console.log(data);
+            }
+        });
     });
+
+
+
 
 
     $("#tblItem").click(function () {

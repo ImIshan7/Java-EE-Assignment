@@ -18,7 +18,13 @@ public class ItemServletAPI extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         try {
+
+            resp.addHeader("Access-Control-Allow-Origin", "*");
+
+
             forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
             PreparedStatement pstm = connection.prepareStatement("select * from item");
@@ -54,6 +60,8 @@ public class ItemServletAPI extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+
         String code = req.getParameter("code");
         String itemName = req.getParameter("description");
         String qty = req.getParameter("qty");
@@ -64,8 +72,8 @@ public class ItemServletAPI extends HttpServlet {
             forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
 
-            switch (option) {
-                case "add":
+         /*   switch (option) {
+                case "add":*/
                     PreparedStatement pstm = connection.prepareStatement("INSERT INTO item values(?,?,?,?)");
                     pstm.setObject(1, code);
                     pstm.setObject(2, itemName);
@@ -85,9 +93,9 @@ public class ItemServletAPI extends HttpServlet {
                         resp.setStatus(400);
                         resp.getWriter().print(objectBuilder.build());
                     }
-                    break;
+                    /*break;*/
 
-            }
+          //  }
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
@@ -102,6 +110,8 @@ public class ItemServletAPI extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+
         String code = req.getParameter("code");
         String itemName = req.getParameter("description");
         String qty = req.getParameter("qty");
@@ -152,6 +162,8 @@ public class ItemServletAPI extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+
         String code = req.getParameter("code");
 
 
@@ -193,6 +205,11 @@ public class ItemServletAPI extends HttpServlet {
         }
     }
 
-
-
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+    }
 }
+
