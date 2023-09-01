@@ -167,14 +167,9 @@ public class CustomerServletAPI extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*String cusID = req.getParameter("cusID");
-        String cusName = req.getParameter("cusName");
-        String cusAddress = req.getParameter("cusAddress");
-        String contact = req.getParameter("contact");
-        String option = req.getParameter("option");
 
-        System.out.println(cusID+" "+cusName);*/
         resp.addHeader("Access-Control-Allow-Origin", "*");
+
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
 
