@@ -12,14 +12,8 @@ import java.sql.*;
 
 import static java.lang.Class.forName;
 
-//http://localhost:8080/pos_one/customer
-//http://localhost:8080/pos_one/pages/customer? 404
-//http://localhost:8080/customer? 404
 
-//http://localhost:8080/pos_one/pages/customer//
-//http:://localhost:8080/pos_one/pages/customer
-//http:://localhost:8080/pos_one/pages/customer
-@WebServlet(urlPatterns = "/pages/customer")
+@WebServlet(urlPatterns = "/customer")
 public class CustomerServletAPI extends HttpServlet {
 
     @Override
@@ -27,8 +21,12 @@ public class CustomerServletAPI extends HttpServlet {
         try {
             /*<!--when the response received catch it and set it to the table-->*/
 
-            forName("com.mysql.jdbc.Driver");
+           forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
+
+
+            
+
 
             String option = req.getParameter("option");
 
@@ -36,7 +34,8 @@ public class CustomerServletAPI extends HttpServlet {
                 case "GetAll":
                     PreparedStatement pstm = connection.prepareStatement("select * from customer");
                     ResultSet rst = pstm.executeQuery();
-                    resp.addHeader("Access-Control-Allow-Origin", "*");
+
+                    /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
 
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -60,14 +59,14 @@ public class CustomerServletAPI extends HttpServlet {
                 case "GetIds":
                     PreparedStatement pstm2 = connection.prepareStatement("SELECT id FROM customer ORDER BY id DESC LIMIT 1;");
                     ResultSet rst2 = pstm2.executeQuery();
-                    resp.addHeader("Access-Control-Allow-Origin", "*");
+                    /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
                     //System.out.println("GetIds"+pstm2);
 
                     JsonArrayBuilder arrayBuilder2 = Json.createArrayBuilder();
                     while (rst2.next()) {
                         String id = rst2.getString("id");
-                        int newCustomerId=Integer.parseInt(id.replace("C0-",""))+1;
+                        int newCustomerId = Integer.parseInt(id.replace("C0-", "")) + 1;
                         arrayBuilder2.add(newCustomerId);
                     }
                     resp.setContentType("application/json");
@@ -79,7 +78,7 @@ public class CustomerServletAPI extends HttpServlet {
                     PreparedStatement pstm3 = connection.prepareStatement("select * from customer where id=?");
                     pstm3.setObject(1, req.getParameter("cusID"));
                     ResultSet rst3 = pstm3.executeQuery();
-                    resp.addHeader("Access-Control-Allow-Origin", "*");
+                    /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
                     JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                     if (rst3.next()) {
@@ -117,7 +116,6 @@ public class CustomerServletAPI extends HttpServlet {
         String option = req.getParameter("option");
 
 
-
         try {
             forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
@@ -125,7 +123,7 @@ public class CustomerServletAPI extends HttpServlet {
           /*  switch (option) {
                 case "add":*/
             PreparedStatement pstm = connection.prepareStatement("Insert into customer values(?,?,?,?)");
-            resp.addHeader("Access-Control-Allow-Origin", "*");
+            /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
             pstm.setObject(1, cusID);
             pstm.setObject(2, cusName);
@@ -148,7 +146,6 @@ public class CustomerServletAPI extends HttpServlet {
             }
 
 
-
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
@@ -164,11 +161,10 @@ public class CustomerServletAPI extends HttpServlet {
     }
 
 
-
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.addHeader("Access-Control-Allow-Origin", "*");
+        /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
@@ -235,7 +231,7 @@ public class CustomerServletAPI extends HttpServlet {
 
 
             PreparedStatement pstm2 = connection.prepareStatement("delete from customer where id=?");
-            resp.addHeader("Access-Control-Allow-Origin", "*");
+            /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
             pstm2.setObject(1, cusID);
 
             System.out.println("Sql" + pstm2);
@@ -270,10 +266,11 @@ public class CustomerServletAPI extends HttpServlet {
     }
 
 
-    @Override
+   /* @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
         resp.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
     }
+}*/
 }
