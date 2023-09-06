@@ -55,7 +55,6 @@ searchCustomer();
 
 var search = false;
 function searchCustomer() {
-    // let id = $("#txtCustomerID").val();
     $.ajax({
         url: "http://localhost:8082/pos/pages/customer?option=search&cusID=" + $("#txtCustomerID").val(),
         method: "GET",
@@ -71,16 +70,13 @@ function searchCustomer() {
             $("#txtCustomerSalary").val(resp.contact);
         },
         error: function (error) {
-            //  alert(error.responseJSON.message);
             search=false;
             alert(error.responseJSON.message)
-            //console.log(error);
         }
     });
 }
 
 function clearData(){
-    //$("#txtCustomerID").val("");
     $("#txtCustomerName").val("");
     $("#txtCustomerAddress").val("");
     $("#txtCustomerSalary").val("");
@@ -96,7 +92,7 @@ $("#btn-clear1").click(function (){
 $("#btnGetAll").click(function () {
     generateCustomerId();
 });
-/*<!--bind a event on btn save btn-->*/
+
 
 $("#btnCustomer").click(function () {
     let formData = $("#customerFrom").serialize();
@@ -116,7 +112,6 @@ $("#btnCustomer").click(function () {
             alert(resp.message);
         },
         error: function (error) {
-            //   alert("An error occurred while communicating with the server.");
             alert(error.responseJSON.message);
 
         }
@@ -143,7 +138,8 @@ $("#btnUpdate").click(function () {
     };
 
     $.ajax({
-        url: "http://localhost:8082/pos/pages/customer",
+       // url: "http://localhost:8082/pos/pages/customer",
+        url: "http://localhost:8085/DBCP_Web_exploded/customer",
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify(cuData),
@@ -159,8 +155,6 @@ $("#btnUpdate").click(function () {
 
         },
         error: function (error) {
-            //   alert("An error occurred while communicating with the server.");
-            //  alert(error.responseJSON.message);
             alert(error.responseJSON.message)
             console.log(error);
         }
@@ -171,9 +165,8 @@ $("#btnUpdate").click(function () {
 $("#btnCusDelete").click(function () {
 
     $.ajax({
-        url: "http://localhost:8082/pos/pages/customer?cusID=" + $("#txtCustomerID").val(),
+        url: "http://localhost:8085/DBCP_Web_exploded/customer?cusID=" + $("#txtCustomerID").val(),
         method: "DELETE",
-        //data:formData,
         dataType: "json",
         headers: {
             Auth: "user=admin,pass=admin"
@@ -185,8 +178,6 @@ $("#btnCusDelete").click(function () {
 
         },
         error: function (error) {
-            //   alert("An error occurred while communicating with the server.");
-            //  alert(error.responseJSON.message);
             alert(error.responseJSON.message)
             console.log(error);
         }
@@ -207,7 +198,6 @@ $("#tblCustomer").on('click', function (event) {
     let address=tr.cells[2].textContent;
     let contact=tr.cells[3].textContent;
 
-    // Call the updated setFiledSet function to populate the form fields
     setFiledSet(id, name, address, contact);
     console.log(id, name, address, contact);
 });

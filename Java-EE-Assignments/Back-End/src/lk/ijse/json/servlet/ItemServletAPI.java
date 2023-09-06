@@ -13,7 +13,7 @@ import java.sql.*;
 
 import static java.lang.Class.forName;
 
-@WebServlet(urlPatterns = "/pages/item")
+@WebServlet(urlPatterns = "/item")
 public class ItemServletAPI extends HttpServlet {
 
     @Override
@@ -22,7 +22,7 @@ public class ItemServletAPI extends HttpServlet {
 
         try {
 
-            resp.addHeader("Access-Control-Allow-Origin", "*");
+            /*resp.addHeader("Access-Control-Allow-Origin", "*");*/
 
 
             forName("com.mysql.jdbc.Driver");
@@ -60,7 +60,9 @@ public class ItemServletAPI extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+/*
         resp.addHeader("Access-Control-Allow-Origin", "*");
+*/
 
         String code = req.getParameter("code");
         String itemName = req.getParameter("description");
@@ -110,7 +112,9 @@ public class ItemServletAPI extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+/*
         resp.addHeader("Access-Control-Allow-Origin", "*");
+*/
 
         String code = req.getParameter("code");
         String itemName = req.getParameter("description");
@@ -162,7 +166,9 @@ public class ItemServletAPI extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+/*
         resp.addHeader("Access-Control-Allow-Origin", "*");
+*/
 
         String code = req.getParameter("code");
 
@@ -205,11 +211,11 @@ public class ItemServletAPI extends HttpServlet {
         }
     }
 
-    @Override
+   /* @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
         resp.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
-    }
+    }*/
 }
 
