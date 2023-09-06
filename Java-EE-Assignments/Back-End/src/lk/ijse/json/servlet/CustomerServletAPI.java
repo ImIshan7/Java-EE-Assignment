@@ -25,9 +25,6 @@ public class CustomerServletAPI extends HttpServlet {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "1234");
 
 
-            
-
-
             String option = req.getParameter("option");
 
             switch (option) {
