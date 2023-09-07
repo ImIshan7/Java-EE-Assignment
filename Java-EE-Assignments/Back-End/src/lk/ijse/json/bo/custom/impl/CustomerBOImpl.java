@@ -1,4 +1,6 @@
 package lk.ijse.json.bo.custom.impl;
 
-public class CustomerBOImpl {
+import lk.ijse.json.bo.custom.CustomerBO;
+
+public class CustomerBOImpl implements CustomerBO {
 }

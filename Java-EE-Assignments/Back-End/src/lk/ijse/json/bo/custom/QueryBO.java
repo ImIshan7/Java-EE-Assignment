@@ -1,4 +1,6 @@
 package lk.ijse.json.bo.custom;
 
-public interface QueryBO {
+import lk.ijse.json.bo.SuperBO;
+
+public interface QueryBO  extends SuperBO {
 }

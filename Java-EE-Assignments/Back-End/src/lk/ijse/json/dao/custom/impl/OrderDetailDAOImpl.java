@@ -1,5 +1,7 @@
 package lk.ijse.json.dao.custom.impl;
 
-public class OrderDetailDAOImpl
-{
+import lk.ijse.json.dao.custom.OrderDetailDAO;
+
+public class OrderDetailDAOImpl implements OrderDetailDAO {
+
 }
